@@ -3,15 +3,17 @@ package com.ohio.grand_hotel_ohio.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 
 @Entity
 @Table(name = "users")
@@ -42,13 +44,14 @@ public class Users implements UserDetails {
     private String phoneNumber;
 
     @Column(name="password")
+    @NotBlank(message = "Password is required!")
     private String password;
 
     @Column(name="role")
     private String role;
 
-    @OneToMany(mappedBy = "user")
-    private List<Booking> bookings;
+    @OneToMany(mappedBy = "users",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Booking> bookings = new ArrayList<>();
 
 
     //constructor
@@ -72,13 +75,13 @@ public class Users implements UserDetails {
     }
 
     @Override
-    public @Nullable String getPassword() {
-        return "";
+    public String getUsername() {
+        return email;
     }
 
     @Override
-    public String getUsername() {
-        return email;
+    public String getPassword() {
+        return password;
     }
 
     @Override
