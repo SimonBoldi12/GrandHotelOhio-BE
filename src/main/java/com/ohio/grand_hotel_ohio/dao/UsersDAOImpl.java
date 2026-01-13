@@ -6,8 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UsersDAOImpl implements UsersDAO {
 
-    @Override
-    public void save(Users user) {
 
-    }
 }
