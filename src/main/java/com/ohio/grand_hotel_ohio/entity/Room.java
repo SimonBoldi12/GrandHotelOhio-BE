@@ -1,9 +1,5 @@
 package com.ohio.grand_hotel_ohio.entity;
-
-
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

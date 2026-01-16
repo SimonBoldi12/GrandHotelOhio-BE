@@ -1,9 +1,9 @@
 package com.ohio.grand_hotel_ohio.entity;
 
+import com.ohio.grand_hotel_ohio.domain.Roles;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 
 @Entity
@@ -47,8 +52,10 @@ public class Users implements UserDetails {
     @NotBlank(message = "Password is required!")
     private String password;
 
-    @Column(name="role")
-    private String role;
+
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Roles role;
 
     @OneToMany(mappedBy = "users",  fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
@@ -56,7 +63,7 @@ public class Users implements UserDetails {
 
     //constructor
 
-    public Users(String firstName, String lastName, String email, String phoneNumber, String password, String role) {
+    public Users(String firstName, String lastName, String email, String phoneNumber, String password, Roles role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -71,8 +78,9 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role.asAuthority()));
     }
+
 
     @Override
     public String getUsername() {

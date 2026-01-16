@@ -2,7 +2,6 @@ package com.ohio.grand_hotel_ohio.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.ohio.grand_hotel_ohio.entity.Booking;
 import lombok.Data;
 
 import java.math.BigDecimal;
