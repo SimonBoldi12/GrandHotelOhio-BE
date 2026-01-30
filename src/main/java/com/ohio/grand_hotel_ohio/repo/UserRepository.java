@@ -1,12 +1,14 @@
 package com.ohio.grand_hotel_ohio.repo;
 
-import org.apache.catalina.User;
+
+import com.ohio.grand_hotel_ohio.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<User, Long> {
+@Repository
+public interface UserRepository extends JpaRepository<Users, Long> {
 
     boolean existsByEmail(String email);
-    Optional<User> findByEmail(String email);
+    Optional<Users> findByEmail(String email);
 }

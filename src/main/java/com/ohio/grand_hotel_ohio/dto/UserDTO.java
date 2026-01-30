@@ -17,4 +17,11 @@ public class UserDTO {
     private String role;
     private List<BookingDTO> bookings = new ArrayList<>();
 
+    public UserDTO(Long id, String email, String name, String phoneNumber, String role) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
 }
