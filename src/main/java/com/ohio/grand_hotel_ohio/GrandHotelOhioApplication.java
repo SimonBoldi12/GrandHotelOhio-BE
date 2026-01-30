@@ -11,6 +11,8 @@ public class GrandHotelOhioApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GrandHotelOhioApplication.class, args);
 
+
 	}
+
 
 }
