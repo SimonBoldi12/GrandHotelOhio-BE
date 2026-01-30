@@ -16,7 +16,7 @@ public class Room {
     private Long id;
 
     private String roomType;
-    private BigDecimal roomPrice;
+    private int roomPrice;
     private String roomPhotoUrl;
     private String roomDescription;
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -50,11 +50,11 @@ public class Room {
         this.roomType = roomType;
     }
 
-    public BigDecimal getRoomPrice() {
+    public int getRoomPrice() {
         return roomPrice;
     }
 
-    public void setRoomPrice(BigDecimal roomPrice) {
+    public void setRoomPrice(int roomPrice) {
         this.roomPrice = roomPrice;
     }
 
