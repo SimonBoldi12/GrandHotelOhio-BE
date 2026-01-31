@@ -16,7 +16,7 @@ public class RoomDTO {
     private int roomPrice;
     private String roomPhotoUrl;
     private String roomDescription;
-//    private List<BookingDTO> bookings;
+    private List<BookingDTO> bookings;
 
 
     public RoomDTO(Long id, String roomType, int roomPrice, String roomPhotoUrl, String roomDescription) {
@@ -25,5 +25,9 @@ public class RoomDTO {
         this.roomPrice = roomPrice;
         this.roomPhotoUrl = roomPhotoUrl;
         this.roomDescription = roomDescription;
+    }
+
+    public RoomDTO() {
+
     }
 }
