@@ -13,13 +13,13 @@ public class RoomDTO {
 
     private Long id;
     private String roomType;
-    private int roomPrice;
+    private Integer roomPrice;
     private String roomPhotoUrl;
     private String roomDescription;
     private List<BookingDTO> bookings;
 
 
-    public RoomDTO(Long id, String roomType, int roomPrice, String roomPhotoUrl, String roomDescription) {
+    public RoomDTO(Long id, String roomType, Integer roomPrice, String roomPhotoUrl, String roomDescription) {
         this.id = id;
         this.roomType = roomType;
         this.roomPrice = roomPrice;

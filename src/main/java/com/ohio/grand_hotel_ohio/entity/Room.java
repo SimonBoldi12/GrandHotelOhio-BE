@@ -16,7 +16,7 @@ public class Room {
     private Long id;
 
     private String roomType;
-    private int roomPrice;
+    private Integer roomPrice;
     private String roomPhotoUrl;
     private String roomDescription;
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -50,11 +50,11 @@ public class Room {
         this.roomType = roomType;
     }
 
-    public int getRoomPrice() {
+    public Integer getRoomPrice() {
         return roomPrice;
     }
 
-    public void setRoomPrice(int roomPrice) {
+    public void setRoomPrice(Integer roomPrice) {
         this.roomPrice = roomPrice;
     }
 
