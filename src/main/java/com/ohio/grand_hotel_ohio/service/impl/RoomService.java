@@ -20,12 +20,16 @@ import java.util.List;
 @Service
 public class RoomService implements IRoomService {
 
-    @Autowired
-    private RoomRepository roomRepository;
-    @Autowired
-    private BookingRepository bookingRepository;
-    @Autowired
-    private AwsS3Service awsS3Service;
+
+    private final RoomRepository roomRepository;
+    private final BookingRepository bookingRepository;
+    private final AwsS3Service awsS3Service;
+
+    public RoomService(RoomRepository roomRepository, BookingRepository bookingRepository, AwsS3Service awsS3Service) {
+        this.roomRepository = roomRepository;
+        this.bookingRepository = bookingRepository;
+        this.awsS3Service = awsS3Service;
+    }
 
     @Override
     public Response addNewRoom(MultipartFile photo, String roomType, Integer roomPrice, String description) {
