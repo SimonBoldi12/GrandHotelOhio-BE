@@ -33,11 +33,11 @@ public class Users implements UserDetails {
     private long id;
 
     @NotBlank(message = "First name is required")
-    @Column(name="first_name")
+    @Column(name="firstName")
     private String firstName;
 
     @NotBlank(message = "Last name is required")
-    @Column(name="last_name")
+    @Column(name="lastName")
     private String lastName;
 
     @NotBlank(message = "Email is required")
