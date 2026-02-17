@@ -25,7 +25,7 @@ public class RoomController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Response> addNewRoom(
             @RequestParam(value = "photo", required = false)MultipartFile photo,
             @RequestParam(value = "roomType", required = false)String roomType,
@@ -84,7 +84,7 @@ public class RoomController {
     }
 
     @PutMapping("/update/{roomId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Response> updateRoom(
             @PathVariable Long roomId,
             @RequestParam(value = "photo", required = false)MultipartFile photo,
@@ -97,7 +97,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/{roomId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Response> deleteRoom(@PathVariable Long roomId){
         Response response = roomService.deleteRoom(roomId);
         return ResponseEntity.status(response.getStatus()).body(response);
