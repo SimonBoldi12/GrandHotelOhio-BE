@@ -1,6 +1,7 @@
 package com.ohio.grand_hotel_ohio.controller;
 
 import com.ohio.grand_hotel_ohio.dto.Response;
+import com.ohio.grand_hotel_ohio.service.interfac.IBookingService;
 import com.ohio.grand_hotel_ohio.service.interfac.IRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,11 +16,13 @@ import java.util.List;
 @RequestMapping("/rooms")
 public class RoomController {
 
-    @Autowired
-    public IRoomService roomService;
+    public final IRoomService roomService;
+    public final IBookingService bookingService;
 
-//    @Autowired
-//    public IBookingService bookingService;
+    public RoomController(IRoomService roomService, IBookingService bookingService) {
+        this.roomService = roomService;
+        this.bookingService = bookingService;
+    }
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ADMIN')")
