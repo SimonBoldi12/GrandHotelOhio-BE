@@ -16,7 +16,7 @@ import java.io.IOException;
 @Service
 public class AwsS3Service {
 
-    private final String bucketName = "grand-hotel-ohio";
+    private final String bucketName = "grand-hotel-ohio-images";
 
     @Value("${aws.s3.access.key}")
     private String awsS3AccessKey;
