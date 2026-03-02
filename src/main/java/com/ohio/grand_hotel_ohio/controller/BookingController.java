@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.*;
 
 public class BookingController {
 
-    @Autowired
-    private IBookingService bookinService;
+
+    private final IBookingService bookinService;
+
+    public BookingController(IBookingService bookinService) {
+        this.bookinService = bookinService;
+    }
 
     @PostMapping("/book-room/{roomId}/{userId}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")

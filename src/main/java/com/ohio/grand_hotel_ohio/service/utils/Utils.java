@@ -33,7 +33,7 @@ public class Utils {
         userDTO.setId(users.getId());
         userDTO.setName(users.getFirstName()+ " " +users.getLastName());
         userDTO.setEmail(users.getEmail());
-        userDTO.setPhoneNumber(userDTO.getPhoneNumber());
+        userDTO.setPhoneNumber(users.getPhoneNumber());
         userDTO.setRole(users.getRole().name());
         return userDTO;
     }
@@ -43,7 +43,7 @@ public class Utils {
 
         roomDTO.setId(room.getId());
         roomDTO.setRoomType(room.getRoomType());
-        roomDTO.setRoomPrice(roomDTO.getRoomPrice());
+        roomDTO.setRoomPrice(room.getRoomPrice());
         roomDTO.setRoomPhotoUrl(room.getRoomPhotoUrl());
         roomDTO.setRoomDescription(room.getRoomDescription());
         return roomDTO;
@@ -67,7 +67,7 @@ public class Utils {
 
         roomDTO.setId(room.getId());
         roomDTO.setRoomType(room.getRoomType());
-        roomDTO.setRoomPrice(roomDTO.getRoomPrice());
+        roomDTO.setRoomPrice(room.getRoomPrice());
         roomDTO.setRoomPhotoUrl(room.getRoomPhotoUrl());
         roomDTO.setRoomDescription(room.getRoomDescription());
 
@@ -86,7 +86,7 @@ public class Utils {
         userDTO.setId(users.getId());
         userDTO.setName(users.getFirstName()+ " " +users.getLastName());
         userDTO.setEmail(users.getEmail());
-        userDTO.setPhoneNumber(userDTO.getPhoneNumber());
+        userDTO.setPhoneNumber(users.getPhoneNumber());
         userDTO.setRole(users.getRole().name());
 
 

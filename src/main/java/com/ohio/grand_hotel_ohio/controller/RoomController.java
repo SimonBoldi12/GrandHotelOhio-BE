@@ -3,7 +3,6 @@ package com.ohio.grand_hotel_ohio.controller;
 import com.ohio.grand_hotel_ohio.dto.Response;
 import com.ohio.grand_hotel_ohio.service.interfac.IBookingService;
 import com.ohio.grand_hotel_ohio.service.interfac.IRoomService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

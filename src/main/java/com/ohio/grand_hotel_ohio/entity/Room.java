@@ -15,6 +15,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String roomType;
     private Integer roomPrice;
     private String roomPhotoUrl;
