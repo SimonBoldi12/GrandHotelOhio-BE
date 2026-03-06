@@ -101,7 +101,9 @@ public class BookingService implements IBookingService {
 
         try {
             List<Booking> bookingList = bookingRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-            List<BookingDTO> bookingDTOList = Utils.mapBookingListEntityToBookingListDTO(bookingList);
+            List<BookingDTO> bookingDTOList = bookingList.stream()
+                    .map(booking -> Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking, true))
+                    .toList();
             response.setStatus(200);
             response.setMessage("successful");
             response.setBookings(bookingDTOList);
