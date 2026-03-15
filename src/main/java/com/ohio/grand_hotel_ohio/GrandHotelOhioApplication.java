@@ -3,9 +3,11 @@ package com.ohio.grand_hotel_ohio;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
 @EntityScan
+@EnableAsync
 public class GrandHotelOhioApplication {
 
 	public static void main(String[] args) {

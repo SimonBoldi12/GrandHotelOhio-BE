@@ -10,6 +10,7 @@ import com.ohio.grand_hotel_ohio.repo.BookingRepository;
 import com.ohio.grand_hotel_ohio.repo.RoomRepository;
 import com.ohio.grand_hotel_ohio.repo.UserRepository;
 import com.ohio.grand_hotel_ohio.service.interfac.IBookingService;
+import com.ohio.grand_hotel_ohio.service.interfac.IEmailService;
 import com.ohio.grand_hotel_ohio.service.interfac.IRoomService;
 import com.ohio.grand_hotel_ohio.service.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,15 @@ public class BookingService implements IBookingService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private IEmailService emailService;
+
 
     @Override
     public Response saveBooking(Long roomId, Long userId, Booking bookingRequest) {
 
         Response response = new Response();
+
 
         try {
             if (bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())) {
@@ -53,6 +58,13 @@ public class BookingService implements IBookingService {
             String bookingConfirmationCode = Utils.generateRandomConfirmationCode(10);
             bookingRequest.setBookingConfirmationCode(bookingConfirmationCode);
             bookingRepository.save(bookingRequest);
+
+
+            try {
+                emailService.sendBookingConfirmation(bookingRequest);
+            } catch (Exception emailException) {
+                System.err.println("Figyelem: A foglalás sikeres, de a visszaigazoló emailt nem sikerült elküldeni. Hiba: " + emailException.getMessage());
+            }
             response.setStatus(200);
             response.setMessage("successful");
             response.setBookingConfirmationCode(bookingConfirmationCode);
