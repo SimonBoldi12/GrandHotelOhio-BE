@@ -5,11 +5,13 @@ import com.ohio.grand_hotel_ohio.dto.RoomDTO;
 import com.ohio.grand_hotel_ohio.dto.UserDTO;
 import com.ohio.grand_hotel_ohio.entity.Booking;
 import com.ohio.grand_hotel_ohio.entity.Room;
+import com.ohio.grand_hotel_ohio.entity.RoomImage;
 import com.ohio.grand_hotel_ohio.entity.Users;
 
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Utils {
     private static final String ALPHANUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -46,6 +48,14 @@ public class Utils {
         roomDTO.setRoomPrice(room.getRoomPrice());
         roomDTO.setRoomPhotoUrl(room.getRoomPhotoUrl());
         roomDTO.setRoomDescription(room.getRoomDescription());
+
+        if (room.getImages() != null) {
+            roomDTO.setImageUrls(
+                    room.getImages().stream()
+                            .map(RoomImage::getImageUrl)
+                            .collect(Collectors.toList())
+            );
+        }
         return roomDTO;
     }
 
@@ -70,6 +80,14 @@ public class Utils {
         roomDTO.setRoomPrice(room.getRoomPrice());
         roomDTO.setRoomPhotoUrl(room.getRoomPhotoUrl());
         roomDTO.setRoomDescription(room.getRoomDescription());
+
+        if (room.getImages() != null) {
+            roomDTO.setImageUrls(
+                    room.getImages().stream()
+                            .map(RoomImage::getImageUrl)
+                            .collect(Collectors.toList())
+            );
+        }
 
         if(room.getBookings() != null){
             roomDTO.setBookings(room.getBookings().stream().map(Utils::mapBookingEntityToBookingDTO).toList());

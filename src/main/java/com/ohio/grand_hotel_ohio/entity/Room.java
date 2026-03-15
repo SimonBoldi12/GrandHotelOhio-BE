@@ -23,6 +23,12 @@ public class Room {
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 
+    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RoomImage> images = new ArrayList<>();
+
+    public List<RoomImage> getImages() { return images; }
+    public void setImages(List<RoomImage> images) { this.images = images; }
+
 
     @Override
     public String toString() {

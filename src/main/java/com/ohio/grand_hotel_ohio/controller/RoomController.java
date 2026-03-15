@@ -102,6 +102,15 @@ public class RoomController {
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @PostMapping("/{roomId}/add-image")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Response> addImageToRoom(
+            @PathVariable Long roomId,
+            @RequestParam("photo") MultipartFile photo) {
+        Response response = roomService.addImageToRoom(roomId, photo);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
 
 }
 

@@ -3,6 +3,7 @@ package com.ohio.grand_hotel_ohio.service.impl;
 import com.ohio.grand_hotel_ohio.dto.Response;
 import com.ohio.grand_hotel_ohio.dto.RoomDTO;
 import com.ohio.grand_hotel_ohio.entity.Room;
+import com.ohio.grand_hotel_ohio.entity.RoomImage;
 import com.ohio.grand_hotel_ohio.exception.OurException;
 import com.ohio.grand_hotel_ohio.repo.BookingRepository;
 import com.ohio.grand_hotel_ohio.repo.RoomRepository;
@@ -202,4 +203,28 @@ public class RoomService implements IRoomService {
         }
         return response;
     }
+    @Override
+    public Response addImageToRoom(Long roomId, MultipartFile photo) {
+        Response response = new Response();
+        try {
+            Room room = roomRepository.findById(roomId)
+                    .orElseThrow(() -> new OurException("Room Not Found"));
+            String imageUrl = awsS3Service.saveImageToS3(photo);
+            RoomImage roomImage = new RoomImage();
+            roomImage.setImageUrl(imageUrl);
+            roomImage.setRoom(room);
+            room.getImages().add(roomImage);
+            roomRepository.save(room);
+            response.setStatus(200);
+            response.setMessage("Successful");
+        } catch (OurException e) {
+            response.setStatus(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.setMessage("Error adding image: " + e.getMessage());
+        }
+        return response;
+    }
+
 }
