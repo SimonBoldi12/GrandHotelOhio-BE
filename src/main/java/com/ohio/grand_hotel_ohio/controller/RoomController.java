@@ -67,18 +67,23 @@ public class RoomController {
 
     @GetMapping("/available-rooms-by-date-and-type")
     public ResponseEntity<Response> getAvailableRoomsByDataAndType(
-            @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
-            @RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOutDate,
             @RequestParam(required = false) String roomType
-    ){
-        if(checkInDate == null || roomType == null || roomType.isBlank() || checkOutDate == null){
+    ) {
+        if (checkInDate == null || checkOutDate == null) {
             Response response = new Response();
             response.setStatus(400);
-            response.setMessage("Please provide values for all fields(checkInDate, checkOutDate, roomType)");
-            return ResponseEntity.status(response.getStatus()).body(response);
+            response.setMessage("Kérem adja meg a be- és kijelentkezési dátumot.");
+            return ResponseEntity.status(400).body(response);
         }
 
-        Response response = roomService.getAvailableRoomsByDataAndType(checkInDate, checkOutDate, roomType);
+        Response response;
+        if (roomType == null || roomType.isBlank()) {
+            response = roomService.getAllAvailableRooms(checkInDate, checkOutDate);
+        } else {
+            response = roomService.getAvailableRoomsByDataAndType(checkInDate, checkOutDate, roomType);
+        }
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 

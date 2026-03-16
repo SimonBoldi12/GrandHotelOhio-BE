@@ -24,5 +24,7 @@ public interface IRoomService {
 
     Response getAllAvailableRooms();
 
+    Response getAllAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate);
+
     Response addImageToRoom(Long roomId, MultipartFile photo);
 }

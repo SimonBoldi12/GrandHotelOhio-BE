@@ -10,17 +10,16 @@ import com.ohio.grand_hotel_ohio.repo.RoomRepository;
 import com.ohio.grand_hotel_ohio.service.AwsS3Service;
 import com.ohio.grand_hotel_ohio.service.interfac.IRoomService;
 import com.ohio.grand_hotel_ohio.service.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomService implements IRoomService {
-
 
     private final RoomRepository roomRepository;
     private final BookingRepository bookingRepository;
@@ -35,8 +34,7 @@ public class RoomService implements IRoomService {
     @Override
     public Response addNewRoom(MultipartFile photo, String roomType, Integer roomPrice, String description) {
         Response response = new Response();
-
-        try{
+        try {
             String imageUrl = awsS3Service.saveImageToS3(photo);
             Room room = new Room();
             room.setRoomPhotoUrl(imageUrl);
@@ -47,36 +45,33 @@ public class RoomService implements IRoomService {
             RoomDTO roomDto = Utils.mapRoomEntityToRoomDTO(savedRoom);
 
             response.setStatus(200);
-            response.setMessage("Succesfull");
+            response.setMessage("Successful");
             response.setRoom(roomDto);
-
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error saving a room " + e.getMessage());
+            response.setMessage("Error saving a room: " + e.getMessage());
         }
         return response;
     }
 
     @Override
     public List<String> getAllRoomTypes() {
-        return  roomRepository.findDistinctRoomTypes();
+        return roomRepository.findDistinctRoomTypes();
     }
 
     @Override
     public Response getAllRooms() {
         Response response = new Response();
-
-        try{
+        try {
             List<Room> roomList = roomRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(roomList);
 
             response.setStatus(200);
-            response.setMessage("Succesfull");
+            response.setMessage("Successful");
             response.setRoomList(roomDTOList);
-
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error saving a room " + e.getMessage());
+            response.setMessage("Error fetching rooms: " + e.getMessage());
         }
         return response;
     }
@@ -84,22 +79,18 @@ public class RoomService implements IRoomService {
     @Override
     public Response deleteRoom(Long roomId) {
         Response response = new Response();
-
-        try{
+        try {
             roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
             roomRepository.deleteById(roomId);
 
-
             response.setStatus(200);
-            response.setMessage("Succesfull");
-
-
-        }catch (OurException e) {
+            response.setMessage("Successful");
+        } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error saving a room " + e.getMessage());
+            response.setMessage("Error deleting room: " + e.getMessage());
         }
         return response;
     }
@@ -107,12 +98,11 @@ public class RoomService implements IRoomService {
     @Override
     public Response updateRoom(Long roomId, String roomType, Integer roomPrice, MultipartFile photo, String description) {
         Response response = new Response();
-
-        try{
-             String imageUrl = null;
-             if(photo != null && !photo.isEmpty()){
-                 imageUrl = awsS3Service.saveImageToS3(photo);
-             }
+        try {
+            String imageUrl = null;
+            if (photo != null && !photo.isEmpty()) {
+                imageUrl = awsS3Service.saveImageToS3(photo);
+            }
 
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
             if (roomType != null) room.setRoomType(roomType);
@@ -124,15 +114,14 @@ public class RoomService implements IRoomService {
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(updatedRoom);
 
             response.setStatus(200);
-            response.setMessage("Succesfull");
+            response.setMessage("Successful");
             response.setRoom(roomDTO);
-
-        }catch (OurException e) {
+        } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error saving a room " + e.getMessage());
+            response.setMessage("Error updating room: " + e.getMessage());
         }
         return response;
     }
@@ -140,22 +129,19 @@ public class RoomService implements IRoomService {
     @Override
     public Response getRoomById(Long roomId) {
         Response response = new Response();
-
-        try{
+        try {
             Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTOPlusBookings(room);
 
             response.setStatus(200);
-            response.setMessage("Succesfull");
+            response.setMessage("Successful");
             response.setRoom(roomDTO);
-
-
-        }catch (OurException e) {
+        } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error saving a room " + e.getMessage());
+            response.setMessage("Error fetching room: " + e.getMessage());
         }
         return response;
     }
@@ -163,20 +149,16 @@ public class RoomService implements IRoomService {
     @Override
     public Response getAvailableRoomsByDataAndType(LocalDate checkInDate, LocalDate checkOutDate, String roomType) {
         Response response = new Response();
-
-        try{
-
+        try {
             List<Room> availableRooms = roomRepository.findAvailableRoomsByDatesAndTypes(checkInDate, checkOutDate, roomType);
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
 
             response.setStatus(200);
-            response.setMessage("Succesfull");
+            response.setMessage("Successful");
             response.setRoomList(roomDTOList);
-
-
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error saving a room " + e.getMessage());
+            response.setMessage("Error fetching available rooms: " + e.getMessage());
         }
         return response;
     }
@@ -184,25 +166,46 @@ public class RoomService implements IRoomService {
     @Override
     public Response getAllAvailableRooms() {
         Response response = new Response();
-
-        try{
+        try {
             List<Room> roomList = roomRepository.getAllAvailableRooms();
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(roomList);
 
             response.setStatus(200);
-            response.setMessage("Succesfull");
+            response.setMessage("Successful");
             response.setRoomList(roomDTOList);
-
-
-        }catch (OurException e) {
+        } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
-        }catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error saving a room " + e.getMessage());
+            response.setMessage("Error fetching available rooms: " + e.getMessage());
         }
         return response;
     }
+
+    @Override
+    public Response getAllAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate) {
+        Response response = new Response();
+        try {
+            List<Room> availableRooms = roomRepository.findAll().stream()
+                    .filter(room -> room.getBookings().stream().noneMatch(booking ->
+                            !booking.getCheckInDate().isAfter(checkOutDate) &&
+                                    !booking.getCheckOutDate().isBefore(checkInDate)
+                    ))
+                    .collect(Collectors.toList());
+
+            List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
+
+            response.setStatus(200);
+            response.setMessage("Successful");
+            response.setRoomList(roomDTOList);
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.setMessage("Error fetching available rooms: " + e.getMessage());
+        }
+        return response;
+    }
+
     @Override
     public Response addImageToRoom(Long roomId, MultipartFile photo) {
         Response response = new Response();
@@ -215,6 +218,7 @@ public class RoomService implements IRoomService {
             roomImage.setRoom(room);
             room.getImages().add(roomImage);
             roomRepository.save(room);
+
             response.setStatus(200);
             response.setMessage("Successful");
         } catch (OurException e) {
@@ -226,5 +230,4 @@ public class RoomService implements IRoomService {
         }
         return response;
     }
-
 }
