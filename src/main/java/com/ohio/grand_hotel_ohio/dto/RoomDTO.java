@@ -18,6 +18,9 @@ public class RoomDTO {
     private String roomDescription;
     private List<BookingDTO> bookings;
     private List<String> imageUrls;
+    private List<RoomAmenityDTO> amenities;
+    private MealPlanDTO mealPlan;
+
 
 
     public RoomDTO(Long id, String roomType, Integer roomPrice, String roomPhotoUrl, String roomDescription) {

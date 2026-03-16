@@ -1,8 +1,6 @@
 package com.ohio.grand_hotel_ohio.service.utils;
 
-import com.ohio.grand_hotel_ohio.dto.BookingDTO;
-import com.ohio.grand_hotel_ohio.dto.RoomDTO;
-import com.ohio.grand_hotel_ohio.dto.UserDTO;
+import com.ohio.grand_hotel_ohio.dto.*;
 import com.ohio.grand_hotel_ohio.entity.Booking;
 import com.ohio.grand_hotel_ohio.entity.Room;
 import com.ohio.grand_hotel_ohio.entity.RoomImage;
@@ -56,6 +54,26 @@ public class Utils {
                             .collect(Collectors.toList())
             );
         }
+
+        if (room.getAmenities() != null && !room.getAmenities().isEmpty()) {
+            roomDTO.setAmenities(room.getAmenities().stream().map(a -> {
+                RoomAmenityDTO dto = new RoomAmenityDTO();
+                dto.setId(a.getId());
+                dto.setName(a.getName());
+                dto.setIcon(a.getIcon());
+                return dto;
+            }).collect(Collectors.toList()));
+        }
+
+        if (room.getMealPlan() != null) {
+            MealPlanDTO mpDTO = new MealPlanDTO();
+            mpDTO.setId(room.getMealPlan().getId());
+            mpDTO.setType(room.getMealPlan().getType().name());
+            mpDTO.setName(room.getMealPlan().getName());
+            mpDTO.setPricePerNight(room.getMealPlan().getPricePerNight());
+            roomDTO.setMealPlan(mpDTO);
+        }
+
         return roomDTO;
     }
 

@@ -2,10 +2,14 @@ package com.ohio.grand_hotel_ohio.service.impl;
 
 import com.ohio.grand_hotel_ohio.dto.Response;
 import com.ohio.grand_hotel_ohio.dto.RoomDTO;
+import com.ohio.grand_hotel_ohio.entity.MealPlan;
 import com.ohio.grand_hotel_ohio.entity.Room;
+import com.ohio.grand_hotel_ohio.entity.RoomAmenity;
 import com.ohio.grand_hotel_ohio.entity.RoomImage;
 import com.ohio.grand_hotel_ohio.exception.OurException;
 import com.ohio.grand_hotel_ohio.repo.BookingRepository;
+import com.ohio.grand_hotel_ohio.repo.MealPlanRepository;
+import com.ohio.grand_hotel_ohio.repo.RoomAmenityRepository;
 import com.ohio.grand_hotel_ohio.repo.RoomRepository;
 import com.ohio.grand_hotel_ohio.service.AwsS3Service;
 import com.ohio.grand_hotel_ohio.service.interfac.IRoomService;
@@ -24,11 +28,15 @@ public class RoomService implements IRoomService {
     private final RoomRepository roomRepository;
     private final BookingRepository bookingRepository;
     private final AwsS3Service awsS3Service;
+    private final RoomAmenityRepository amenityRepository;
+    private final MealPlanRepository mealPlanRepository;
 
-    public RoomService(RoomRepository roomRepository, BookingRepository bookingRepository, AwsS3Service awsS3Service) {
+    public RoomService(RoomRepository roomRepository, BookingRepository bookingRepository, AwsS3Service awsS3Service, RoomAmenityRepository amenityRepository, MealPlanRepository mealPlanRepository) {
         this.roomRepository = roomRepository;
         this.bookingRepository = bookingRepository;
         this.awsS3Service = awsS3Service;
+        this.amenityRepository = amenityRepository;
+        this.mealPlanRepository = mealPlanRepository;
     }
 
     @Override
@@ -228,6 +236,44 @@ public class RoomService implements IRoomService {
             response.setStatus(500);
             response.setMessage("Error adding image: " + e.getMessage());
         }
+        return response;
+    }
+
+    @Override
+    public Response addAmenity(Long roomId, String name, String icon) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Szoba nem található"));
+        RoomAmenity amenity = new RoomAmenity();
+        amenity.setName(name);
+        amenity.setIcon(icon);
+        amenity.setRoom(room);
+        amenityRepository.save(amenity);
+        Response response = new Response();
+        response.setStatus(200);
+        response.setMessage("Felszereltség hozzáadva!");
+        return response;
+    }
+
+    @Override
+    public Response deleteAmenity(Long amenityId) {
+        amenityRepository.deleteById(amenityId);
+        Response response = new Response();
+        response.setStatus(200);
+        response.setMessage("Felszereltség törölve!");
+        return response;
+    }
+
+    @Override
+    public Response setMealPlan(Long roomId, Long mealPlanId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new RuntimeException("Szoba nem található"));
+        MealPlan mealPlan = mealPlanRepository.findById(mealPlanId)
+                .orElseThrow(() -> new RuntimeException("Étkezési csomag nem található"));
+        room.setMealPlan(mealPlan);
+        roomRepository.save(room);
+        Response response = new Response();
+        response.setStatus(200);
+        response.setMessage("Étkezési csomag beállítva!");
         return response;
     }
 }

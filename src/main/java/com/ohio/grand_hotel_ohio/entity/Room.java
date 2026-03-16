@@ -9,6 +9,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "rooms")
+@Getter
+@Setter
 public class Room {
 
     @Id
@@ -26,8 +28,18 @@ public class Room {
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomImage> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<RoomAmenity> amenities = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "meal_plan_id")
+    private MealPlan mealPlan;
+
     public List<RoomImage> getImages() { return images; }
     public void setImages(List<RoomImage> images) { this.images = images; }
+
+
+
 
 
     @Override
@@ -41,51 +53,4 @@ public class Room {
                 '}';
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
-    }
-
-    public Integer getRoomPrice() {
-        return roomPrice;
-    }
-
-    public void setRoomPrice(Integer roomPrice) {
-        this.roomPrice = roomPrice;
-    }
-
-    public String getRoomPhotoUrl() {
-        return roomPhotoUrl;
-    }
-
-    public void setRoomPhotoUrl(String roomPhotoUrl) {
-        this.roomPhotoUrl = roomPhotoUrl;
-    }
-
-    public String getRoomDescription() {
-        return roomDescription;
-    }
-
-    public void setRoomDescription(String roomDescription) {
-        this.roomDescription = roomDescription;
-    }
-
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
 }

@@ -1,9 +1,13 @@
 package com.ohio.grand_hotel_ohio.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "room_images")
+@Getter
+@Setter
 public class RoomImage {
 
     @Id
@@ -16,10 +20,5 @@ public class RoomImage {
     @JoinColumn(name = "room_id")
     private Room room;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
-    public Room getRoom() { return room; }
-    public void setRoom(Room room) { this.room = room; }
+
 }

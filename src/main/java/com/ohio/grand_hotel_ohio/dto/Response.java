@@ -24,4 +24,9 @@ public class Response {
     private List<UserDTO> userList;
     private List<RoomDTO> roomList;
     private List<BookingDTO> bookings;
+
+    private List<HotelServiceDTO> serviceList;
+    private List<HotelGalleryDTO> galleryList;
+    private List<MealPlanDTO> mealPlanList;
+
 }
