@@ -117,11 +117,19 @@ public class RoomController {
         return ResponseEntity.ok(roomService.deleteAmenity(amenityId));
     }
 
-    @PutMapping("/{roomId}/set-meal-plan/{mealPlanId}")
+    @PostMapping("/{roomId}/meal-plan/{mealPlanId}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Response> setMealPlan(
+    public ResponseEntity<Response> addMealPlanToRoom(
             @PathVariable Long roomId,
             @PathVariable Long mealPlanId) {
-        return ResponseEntity.ok(roomService.setMealPlan(roomId, mealPlanId));
+        return ResponseEntity.ok(roomService.addMealPlanToRoom(roomId, mealPlanId));
+    }
+
+    @DeleteMapping("/{roomId}/meal-plan/{mealPlanId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Response> removeMealPlanFromRoom(
+            @PathVariable Long roomId,
+            @PathVariable Long mealPlanId) {
+        return ResponseEntity.ok(roomService.removeMealPlanFromRoom(roomId, mealPlanId));
     }
 }

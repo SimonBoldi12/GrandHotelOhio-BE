@@ -22,13 +22,14 @@ public class BookingController {
 
     @PostMapping("/book-room/{roomId}/{userId}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    public ResponseEntity<Response> saveBookings(@PathVariable Long roomId,
-                                                 @PathVariable Long userId,
-                                                 @RequestBody Booking bookingRequest){
+    public ResponseEntity<Response> saveBookings(
+            @PathVariable Long roomId,
+            @PathVariable Long userId,
+            @RequestBody Booking bookingRequest,
+            @RequestParam(required = false) Long mealPlanId) {
 
-        Response response = bookinService.saveBooking(roomId, userId, bookingRequest);
-        return  ResponseEntity.status(response.getStatus()).body(response);
-
+        Response response = bookinService.saveBooking(roomId, userId, bookingRequest, mealPlanId);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @GetMapping("/all")
@@ -49,6 +50,14 @@ public class BookingController {
     public ResponseEntity<Response> cancelBooking(@PathVariable Long bookingId){
         Response response = bookinService.cancelBooking(bookingId);
         return ResponseEntity.status(response.getStatus()).body(response);
+    }
+
+    @PostMapping("/{bookingId}/add-service/{serviceId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Response> addServiceToBooking(
+            @PathVariable Long bookingId,
+            @PathVariable Long serviceId) {
+        return ResponseEntity.ok(bookinService.addServiceToBooking(bookingId, serviceId));
     }
 
 }

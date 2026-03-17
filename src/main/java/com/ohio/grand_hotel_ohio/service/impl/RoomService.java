@@ -264,16 +264,46 @@ public class RoomService implements IRoomService {
     }
 
     @Override
-    public Response setMealPlan(Long roomId, Long mealPlanId) {
-        Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new RuntimeException("Szoba nem található"));
-        MealPlan mealPlan = mealPlanRepository.findById(mealPlanId)
-                .orElseThrow(() -> new RuntimeException("Étkezési csomag nem található"));
-        room.setMealPlan(mealPlan);
-        roomRepository.save(room);
+    public Response addMealPlanToRoom(Long roomId, Long mealPlanId) {
         Response response = new Response();
-        response.setStatus(200);
-        response.setMessage("Étkezési csomag beállítva!");
+        try {
+            Room room = roomRepository.findById(roomId)
+                    .orElseThrow(() -> new OurException("Room Not Found"));
+            MealPlan mealPlan = mealPlanRepository.findById(mealPlanId)
+                    .orElseThrow(() -> new OurException("MealPlan Not Found"));
+            if (!room.getMealPlans().contains(mealPlan)) {
+                room.getMealPlans().add(mealPlan);
+                roomRepository.save(room);
+            }
+            response.setStatus(200);
+            response.setMessage("Étkezési csomag hozzáadva!");
+        } catch (OurException e) {
+            response.setStatus(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.setMessage("Hiba: " + e.getMessage());
+        }
+        return response;
+    }
+
+    @Override
+    public Response removeMealPlanFromRoom(Long roomId, Long mealPlanId) {
+        Response response = new Response();
+        try {
+            Room room = roomRepository.findById(roomId)
+                    .orElseThrow(() -> new OurException("Room Not Found"));
+            room.getMealPlans().removeIf(m -> m.getId().equals(mealPlanId));
+            roomRepository.save(room);
+            response.setStatus(200);
+            response.setMessage("Étkezési csomag eltávolítva!");
+        } catch (OurException e) {
+            response.setStatus(404);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.setMessage("Hiba: " + e.getMessage());
+        }
         return response;
     }
 }

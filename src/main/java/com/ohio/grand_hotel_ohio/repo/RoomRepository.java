@@ -32,4 +32,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             SELECT r FROM Room r
             """)
     List<Room> findAllRooms();
+
+    List<Room> findByMealPlansId(Long mealPlanId);
 }

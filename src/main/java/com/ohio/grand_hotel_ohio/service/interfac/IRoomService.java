@@ -29,6 +29,10 @@ public interface IRoomService {
     Response addImageToRoom(Long roomId, MultipartFile photo);
 
     Response addAmenity(Long roomId, String name, String icon);
+
     Response deleteAmenity(Long amenityId);
-    Response setMealPlan(Long roomId, Long mealPlanId);
+
+    Response addMealPlanToRoom(Long roomId, Long mealPlanId);
+
+    Response removeMealPlanFromRoom(Long roomId, Long mealPlanId);
 }

@@ -5,7 +5,9 @@ import com.ohio.grand_hotel_ohio.domain.MealPlanType;
 import com.ohio.grand_hotel_ohio.dto.MealPlanDTO;
 import com.ohio.grand_hotel_ohio.dto.Response;
 import com.ohio.grand_hotel_ohio.entity.MealPlan;
+import com.ohio.grand_hotel_ohio.entity.Room;
 import com.ohio.grand_hotel_ohio.repo.MealPlanRepository;
+import com.ohio.grand_hotel_ohio.repo.RoomRepository;
 import com.ohio.grand_hotel_ohio.service.interfac.IMealPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class MealPlanService implements IMealPlanService {
 
     @Autowired
     private MealPlanRepository mealPlanRepo;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Override
     public Response getAll() {
@@ -57,10 +62,21 @@ public class MealPlanService implements IMealPlanService {
 
     @Override
     public Response delete(Long id) {
-        mealPlanRepo.deleteById(id);
         Response response = new Response();
-        response.setStatus(200);
-        response.setMessage("Étkezési csomag törölve!");
+        try {
+            List<Room> rooms = roomRepository.findByMealPlansId(id);
+            for (Room room : rooms) {
+                room.getMealPlans().removeIf(m -> m.getId().equals(id));
+                roomRepository.save(room);
+            }
+
+            mealPlanRepo.deleteById(id);
+            response.setStatus(200);
+            response.setMessage("Étkezési csomag törölve!");
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.setMessage("Hiba: " + e.getMessage());
+        }
         return response;
     }
 

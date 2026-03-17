@@ -31,9 +31,13 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RoomAmenity> amenities = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "meal_plan_id")
-    private MealPlan mealPlan;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "room_meal_plans",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "meal_plan_id")
+    )
+    private List<MealPlan> mealPlans = new ArrayList<>();
 
     public List<RoomImage> getImages() { return images; }
     public void setImages(List<RoomImage> images) { this.images = images; }

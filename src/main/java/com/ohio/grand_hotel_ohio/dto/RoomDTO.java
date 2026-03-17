@@ -19,7 +19,7 @@ public class RoomDTO {
     private List<BookingDTO> bookings;
     private List<String> imageUrls;
     private List<RoomAmenityDTO> amenities;
-    private MealPlanDTO mealPlan;
+    private List<MealPlanDTO> mealPlans;
 
 
 
