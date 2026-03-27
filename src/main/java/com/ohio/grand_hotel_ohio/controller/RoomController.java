@@ -25,7 +25,7 @@ public class RoomController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> addNewRoom(
             @RequestParam(value = "photo", required = false) MultipartFile photo,
             @RequestParam(value = "roomType", required = false) String roomType,
@@ -78,7 +78,7 @@ public class RoomController {
     }
 
     @PutMapping("/update/{roomId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> updateRoom(
             @PathVariable Long roomId,
             @RequestParam(value = "photo", required = false) MultipartFile photo,
@@ -89,13 +89,13 @@ public class RoomController {
     }
 
     @DeleteMapping("/delete/{roomId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> deleteRoom(@PathVariable Long roomId) {
         return ResponseEntity.ok(roomService.deleteRoom(roomId));
     }
 
     @PostMapping("/{roomId}/add-image")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> addImageToRoom(
             @PathVariable Long roomId,
             @RequestParam("photo") MultipartFile photo) {
@@ -103,7 +103,7 @@ public class RoomController {
     }
 
     @PostMapping("/{roomId}/add-amenity")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> addAmenity(
             @PathVariable Long roomId,
             @RequestParam String name,
@@ -112,13 +112,13 @@ public class RoomController {
     }
 
     @DeleteMapping("/amenity/delete/{amenityId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> deleteAmenity(@PathVariable Long amenityId) {
         return ResponseEntity.ok(roomService.deleteAmenity(amenityId));
     }
 
     @PostMapping("/{roomId}/meal-plan/{mealPlanId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> addMealPlanToRoom(
             @PathVariable Long roomId,
             @PathVariable Long mealPlanId) {
@@ -126,7 +126,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/{roomId}/meal-plan/{mealPlanId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> removeMealPlanFromRoom(
             @PathVariable Long roomId,
             @PathVariable Long mealPlanId) {

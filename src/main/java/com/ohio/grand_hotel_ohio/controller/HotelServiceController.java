@@ -28,7 +28,7 @@ public class HotelServiceController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> addService(
             @RequestParam String category,
             @RequestParam String name,
@@ -39,7 +39,7 @@ public class HotelServiceController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> deleteService(@PathVariable Long id) {
         return ResponseEntity.ok(hotelServiceService.deleteService(id));
     }

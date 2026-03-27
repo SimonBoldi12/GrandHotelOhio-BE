@@ -28,7 +28,7 @@ public class HotelGalleryController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> addImage(
             @RequestParam String category,
             @RequestParam(required = false) String caption,
@@ -37,7 +37,7 @@ public class HotelGalleryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> deleteImage(@PathVariable Long id) {
         return ResponseEntity.ok(galleryService.deleteImage(id));
     }

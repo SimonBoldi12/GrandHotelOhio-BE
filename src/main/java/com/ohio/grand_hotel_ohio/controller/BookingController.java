@@ -21,7 +21,7 @@ public class BookingController {
     }
 
     @PostMapping("/book-room/{roomId}/{userId}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('STAFF')")
     public ResponseEntity<Response> saveBookings(
             @PathVariable Long roomId,
             @PathVariable Long userId,
@@ -33,7 +33,7 @@ public class BookingController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> getAllBookings(){
         Response response = bookinService.getAllBookings();
         return ResponseEntity.status(response.getStatus()).body(response);
@@ -46,14 +46,14 @@ public class BookingController {
     }
 
     @DeleteMapping("/cancel/{bookingId}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('STAFF')")
     public ResponseEntity<Response> cancelBooking(@PathVariable Long bookingId){
         Response response = bookinService.cancelBooking(bookingId);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
     @PostMapping("/{bookingId}/add-service/{serviceId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> addServiceToBooking(
             @PathVariable Long bookingId,
             @PathVariable Long serviceId) {

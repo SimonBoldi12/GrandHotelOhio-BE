@@ -22,7 +22,7 @@ public class MealPlanController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> add(
             @RequestParam String type,
             @RequestParam String name,
@@ -31,7 +31,7 @@ public class MealPlanController {
     }
 
     @PutMapping("/update/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> update(
             @PathVariable Long id,
             @RequestParam(required = false) String name,
@@ -40,7 +40,7 @@ public class MealPlanController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
     public ResponseEntity<Response> delete(@PathVariable Long id) {
         return ResponseEntity.ok(mealPlanService.delete(id));
     }
