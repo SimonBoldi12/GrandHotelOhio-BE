@@ -34,7 +34,6 @@ public class Booking {
     @Min(value = 0, message = "Number of children must not be less than 0!")
     private int numOfChildren;
 
-
     private int totalNumOfGuests;
 
     private String bookingConfirmationCode;
@@ -59,12 +58,11 @@ public class Booking {
     @JoinColumn(name = "selected_meal_plan_id")
     private MealPlan selectedMealPlan;
 
-    // összes vendég számítása
+
     public void calculateTotalNumOfGuests() {
         this.totalNumOfGuests = this.numOfAdults + this.numOfChildren;
     }
 
-    //setter
 
     public void setNumOfAdults(int numOfAdults) {
         this.numOfAdults = numOfAdults;

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 public class BookingController {
 
-
     private final IBookingService bookinService;
 
     public BookingController(IBookingService bookinService) {

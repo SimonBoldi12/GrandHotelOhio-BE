@@ -18,11 +18,13 @@ import java.util.stream.Collectors;
 @Service
 public class MealPlanService implements IMealPlanService {
 
-    @Autowired
-    private MealPlanRepository mealPlanRepo;
+    private final MealPlanRepository mealPlanRepo;
+    private final RoomRepository roomRepository;
 
-    @Autowired
-    private RoomRepository roomRepository;
+    public MealPlanService(MealPlanRepository mealPlanRepo, RoomRepository roomRepository) {
+        this.mealPlanRepo = mealPlanRepo;
+        this.roomRepository = roomRepository;
+    }
 
     @Override
     public Response getAll() {
