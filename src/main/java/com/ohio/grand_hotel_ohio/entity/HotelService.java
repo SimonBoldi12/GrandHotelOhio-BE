@@ -28,7 +28,7 @@ public class HotelService {
     @Column(nullable = false)
     private Double price;
 
-    @Column(name = "photo_url")
+    @Column(name = "photo_url",nullable = false)
     private String photoUrl;
 
     @Column(nullable = false)

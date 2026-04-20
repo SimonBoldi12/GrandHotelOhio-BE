@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
 @Entity
 @Table(name = "room_amenities")
+@NoArgsConstructor
 @Getter
 @Setter
 public class RoomAmenity {
@@ -28,8 +30,6 @@ public class RoomAmenity {
     @JsonIgnore
     private Room room;
 
-    public RoomAmenity() {
-    }
 
     public RoomAmenity(String name, String icon, Room room) {
         this.name = name;

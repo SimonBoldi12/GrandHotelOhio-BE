@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(name = "booking")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Booking {
 
     @Id
@@ -23,28 +25,34 @@ public class Booking {
     private Long id;
 
     @NotNull(message = "Check in date is required!")
+    @Column(name = "check_in_date",nullable = false)
     private LocalDate checkInDate;
 
     @Future(message = "Check out date must be in the future!")
+    @Column(name = "check_out_date",nullable = false)
     private LocalDate checkOutDate;
 
     @Min(value = 1, message = "Number of adults must not be less than 1!")
+    @Column(name = "num_of_adults",nullable = false)
     private int numOfAdults;
 
     @Min(value = 0, message = "Number of children must not be less than 0!")
+    @Column(name = "num_of_children",nullable = false)
     private int numOfChildren;
 
-
+    @Column(name = "total_num_of_guests")
     private int totalNumOfGuests;
 
+
+    @Column(name = "booking_confirmation_code",nullable = false,unique = true)
     private String bookingConfirmationCode;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = false)
     private Users users;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "room_id",nullable = false)
     private Room room;
 
     @ManyToMany(fetch = FetchType.EAGER)

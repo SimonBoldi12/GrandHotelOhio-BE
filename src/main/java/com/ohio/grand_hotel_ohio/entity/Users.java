@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,6 +24,7 @@ import jakarta.persistence.EnumType;
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Users implements UserDetails {
@@ -33,27 +35,27 @@ public class Users implements UserDetails {
     private long id;
 
     @NotBlank(message = "First name is required")
-    @Column(name="firstName")
+    @Column(name="first_name",nullable = false)
     private String firstName;
 
     @NotBlank(message = "Last name is required")
-    @Column(name="lastName")
+    @Column(name="last_name",nullable = false)
     private String lastName;
 
     @NotBlank(message = "Email is required")
-    @Column(name="email")
+    @Column(name="email",nullable = false,unique = true)
     private String email;
 
     @NotBlank(message = "Phone number is required")
-    @Column(name="phoneNumber")
+    @Column(name="phone_number",nullable = false)
     private String phoneNumber;
 
-    @Column(name="password")
+    @Column(name="password",nullable = false)
     @NotBlank(message = "Password is required!")
     private String password;
 
 
-    @Column(name = "role")
+    @Column(name = "role",nullable = false)
     @Enumerated(EnumType.STRING)
     private Roles role;
 
@@ -61,7 +63,6 @@ public class Users implements UserDetails {
     private List<Booking> bookings = new ArrayList<>();
 
 
-    //constructor
 
     public Users(String firstName, String lastName, String email, String phoneNumber, String password, Roles role) {
         this.firstName = firstName;
@@ -72,9 +73,7 @@ public class Users implements UserDetails {
         this.role = role;
     }
 
-    public Users(){
 
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

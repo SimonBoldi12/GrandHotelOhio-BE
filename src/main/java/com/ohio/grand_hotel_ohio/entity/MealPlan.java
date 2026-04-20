@@ -17,7 +17,7 @@ public class MealPlan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "meal_plan_type", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private MealPlanType type;
 

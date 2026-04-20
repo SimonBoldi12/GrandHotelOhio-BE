@@ -17,10 +17,16 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "room_type", nullable = false)
     private String roomType;
+
+    @Column(name = "room_price",nullable = false)
     private Integer roomPrice;
+
+    @Column(name = "room_photo_url",nullable = false)
     private String roomPhotoUrl;
+
+    @Column(name = "room_description",nullable = false)
     private String roomDescription;
     @OneToMany(mappedBy = "room", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();

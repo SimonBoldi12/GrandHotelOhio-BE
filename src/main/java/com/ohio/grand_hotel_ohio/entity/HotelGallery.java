@@ -22,7 +22,7 @@ public class HotelGallery {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
-    @Column
+    @Column(nullable = false)
     private String caption;
 
     public HotelGallery() {
