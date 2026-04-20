@@ -14,12 +14,13 @@ import org.thymeleaf.context.Context;
 @Service
 public class EmailService implements IEmailService {
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
+    private final TemplateEngine templateEngine;
 
-
-    @Autowired
-    private TemplateEngine templateEngine;
+    public EmailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
+        this.javaMailSender = javaMailSender;
+        this.templateEngine = templateEngine;
+    }
 
     @Async
     @Override

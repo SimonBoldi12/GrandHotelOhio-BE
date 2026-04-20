@@ -16,11 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class HotelGalleryService implements IHotelGalleryService {
 
-    @Autowired
-    private HotelGalleryRepository galleryRepo;
+    private final HotelGalleryRepository galleryRepo;
+    private final AwsS3Service s3Service;
 
-    @Autowired
-    private AwsS3Service s3Service;
+    public HotelGalleryService(HotelGalleryRepository galleryRepo, AwsS3Service s3Service) {
+        this.galleryRepo = galleryRepo;
+        this.s3Service = s3Service;
+    }
 
     @Override
     public Response getAll() {

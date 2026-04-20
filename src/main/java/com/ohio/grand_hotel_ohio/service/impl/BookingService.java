@@ -25,20 +25,23 @@ import java.util.List;
 @Service
 public class BookingService implements IBookingService {
 
-    @Autowired
-    private BookingRepository bookingRepository;
-    @Autowired
-    private IRoomService roomService;
-    @Autowired
-    private RoomRepository roomRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private IEmailService emailService;
-    @Autowired
-    private HotelServiceRepository hotelServiceRepository;
-    @Autowired
-    private MealPlanRepository mealPlanRepository;
+    private final BookingRepository bookingRepository;
+    private final IRoomService roomService;
+    private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
+    private final IEmailService emailService;
+    private final HotelServiceRepository hotelServiceRepository;
+    private final MealPlanRepository mealPlanRepository;
+
+    public BookingService(BookingRepository bookingRepository, IRoomService roomService, RoomRepository roomRepository, UserRepository userRepository, IEmailService emailService, HotelServiceRepository hotelServiceRepository, MealPlanRepository mealPlanRepository) {
+        this.bookingRepository = bookingRepository;
+        this.roomService = roomService;
+        this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
+        this.emailService = emailService;
+        this.hotelServiceRepository = hotelServiceRepository;
+        this.mealPlanRepository = mealPlanRepository;
+    }
 
     @Override
     public Response saveBooking(Long roomId, Long userId, Booking bookingRequest, Long mealPlanId) {
@@ -47,21 +50,20 @@ public class BookingService implements IBookingService {
 
         try {
             if (bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())) {
-                throw new IllegalArgumentException("Check in date must come after check out date");
+                throw new IllegalArgumentException("A kijelentkezési dátum nem lehet korábbi, mint a bejelentkezési dátum.");
             }
-            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
-            Users user = userRepository.findById(userId).orElseThrow(() -> new OurException("User Not Found"));
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Nem található a szoba"));
+            Users user = userRepository.findById(userId).orElseThrow(() -> new OurException("Nem található felhasználó"));
 
             List<Booking> existingBookings = room.getBookings();
 
             if (!roomIsAvailable(bookingRequest, existingBookings)) {
-                throw new OurException("Room not Available for selected date range");
+                throw new OurException("A szoba nem elérhető a kiválasztott dátumtartományban.");
             }
 
             bookingRequest.setRoom(room);
             bookingRequest.setUsers(user);
 
-            // Étkezési csomag beállítása ha meg van adva
             if (mealPlanId != null) {
                 MealPlan mealPlan = mealPlanRepository.findById(mealPlanId).orElse(null);
                 bookingRequest.setSelectedMealPlan(mealPlan);
@@ -127,7 +129,7 @@ public class BookingService implements IBookingService {
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error Getting all bookings: " + e.getMessage());
+            response.setMessage("Hiba az összes szoba visszaadásakor: " + e.getMessage());
         }
         return response;
     }
@@ -145,7 +147,7 @@ public class BookingService implements IBookingService {
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error Cancelling a booking: " + e.getMessage());
+            response.setMessage("Hiba a szoba lemondásakor: " + e.getMessage());
         }
         return response;
     }
@@ -155,9 +157,9 @@ public class BookingService implements IBookingService {
         Response response = new Response();
         try {
             Booking booking = bookingRepository.findById(bookingId)
-                    .orElseThrow(() -> new OurException("Booking Not Found"));
+                    .orElseThrow(() -> new OurException("Foglalás nem található"));
             HotelService service = hotelServiceRepository.findById(serviceId)
-                    .orElseThrow(() -> new OurException("Service Not Found"));
+                    .orElseThrow(() -> new OurException("Szolgáltatás nem található"));
 
             booking.getSelectedServices().add(service);
             bookingRepository.save(booking);
