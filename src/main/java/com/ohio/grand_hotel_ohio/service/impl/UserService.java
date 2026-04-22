@@ -43,7 +43,7 @@ public class UserService implements IUserService {
 
             }
             if(userRepository.existsByEmail(users.getEmail())){
-                throw new OurException(users.getEmail() + "Already Exists");
+                throw new OurException(users.getEmail() + "Már létezik");
             }
             users.setPassword(passwordEncoder.encode(users.getPassword()));
             Users savedUsers = userRepository.save(users);
@@ -59,7 +59,7 @@ public class UserService implements IUserService {
         }
         catch (Exception e){
             response.setStatus(500);
-            response.setMessage("Error Occured During Suring User Registration" +  e.getMessage());
+            response.setMessage("Hiba történt a felhasználói regisztráció során" +  e.getMessage());
 
         }
         return response;
@@ -73,21 +73,21 @@ public class UserService implements IUserService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword()));
 
-            var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(()->new OurException("user Not found"));
+            var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(()->new OurException("A felhasználó nem található"));
 
             var token = jwtUtils.generateToken(user);
             response.setStatus(200);
             response.setToken(token);
             response.setRole(user.getRole().name());
-            response.setExpirationTime("7 Days");
-            response.setMessage("succesful");
+            response.setExpirationTime("7 nap");
+            response.setMessage("sikeres");
         }catch (OurException e){
             response.setStatus(404);
             response.setMessage(e.getMessage());
 
         }catch (Exception e){
             response.setStatus(500);
-            response.setMessage("Error Occured During User Login" +  e.getMessage());
+            response.setMessage("Hiba történt a felhasználó bejelentkezése közben" +  e.getMessage());
         }
         return response;
     }
@@ -100,12 +100,12 @@ public class UserService implements IUserService {
             List<Users>usersList = userRepository.findAll();
             List<UserDTO>userDTOList = Utils.mapUserListEntityToUserListDTO(usersList);
             response.setStatus(200);
-            response.setMessage("succesful");
+            response.setMessage("sikeres");
             response.setUserList(userDTOList);
         }
         catch (Exception e){
             response.setStatus(500);
-            response.setMessage("Error getting all users" +  e.getMessage());
+            response.setMessage("Hiba az összes felhasználó lekérésénél" +  e.getMessage());
         }
         return response;
     }
@@ -116,11 +116,11 @@ public class UserService implements IUserService {
 
 
         try{
-            Users users = userRepository.findById(Long.valueOf(userId)).orElseThrow(()->new OurException("User Not Found"));
+            Users users = userRepository.findById(Long.valueOf(userId)).orElseThrow(()->new OurException("A felhasználó nem található"));
             UserDTO userDTO = Utils.mapUserEntityToUserDTOPlusUserBookingsAndRooms(users);
 
             response.setStatus(200);
-            response.setMessage("succesful");
+            response.setMessage("sikeres");
             response.setUsers(userDTO);
         }catch (OurException e){
 
@@ -130,7 +130,7 @@ public class UserService implements IUserService {
         } catch (Exception e) {
 
             response.setStatus(500);
-            response.setMessage("Error getting all users" +  e.getMessage());
+            response.setMessage("Hiba az összes felhasználó lekérésénél" +  e.getMessage());
         }
         return response;
     }
@@ -141,11 +141,11 @@ public class UserService implements IUserService {
 
 
         try{
-            userRepository.findById(Long.valueOf(userId)).orElseThrow(()->new OurException("User Not Found"));
+            userRepository.findById(Long.valueOf(userId)).orElseThrow(()->new OurException("A felhasználó nem található"));
             userRepository.deleteById(Long.valueOf(userId));
 
             response.setStatus(200);
-            response.setMessage("succesful");
+            response.setMessage("sikeres");
         }catch (OurException e){
 
             response.setStatus(404);
@@ -154,7 +154,7 @@ public class UserService implements IUserService {
         } catch (Exception e) {
 
             response.setStatus(500);
-            response.setMessage("Error getting all users" +  e.getMessage());
+            response.setMessage("Hiba az összes felhasználó lekérésénél" +  e.getMessage());
         }
         return response;
     }
@@ -165,11 +165,11 @@ public class UserService implements IUserService {
 
 
         try{
-            Users users = userRepository.findById(Long.valueOf(userId)).orElseThrow(()->new OurException("User Not Found"));
+            Users users = userRepository.findById(Long.valueOf(userId)).orElseThrow(()->new OurException("A felhasználó nem található"));
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(users);
 
             response.setStatus(200);
-            response.setMessage("succesful");
+            response.setMessage("sikeres");
             response.setUsers(userDTO);
 
         }catch (OurException e){
@@ -180,7 +180,7 @@ public class UserService implements IUserService {
         } catch (Exception e) {
 
             response.setStatus(500);
-            response.setMessage("Error getting all users" +  e.getMessage());
+            response.setMessage("Hiba az összes felhasználó lekérésénél" +  e.getMessage());
         }
         return response;
     }
@@ -191,11 +191,11 @@ public class UserService implements IUserService {
 
 
         try{
-            Users users = userRepository.findByEmail(email).orElseThrow(()->new OurException("User Not Found"));
+            Users users = userRepository.findByEmail(email).orElseThrow(()->new OurException("A felhasználó nem található"));
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(users);
 
             response.setStatus(200);
-            response.setMessage("succesful");
+            response.setMessage("sikeres");
             response.setUsers(userDTO);
 
         }catch (OurException e){
@@ -206,7 +206,7 @@ public class UserService implements IUserService {
         } catch (Exception e) {
 
             response.setStatus(500);
-            response.setMessage("Error getting all users" +  e.getMessage());
+            response.setMessage("Hiba az összes felhasználó lekérésénél" +  e.getMessage());
         }
         return response;
     }

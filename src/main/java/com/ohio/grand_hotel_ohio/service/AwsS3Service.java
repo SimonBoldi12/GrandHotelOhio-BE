@@ -48,7 +48,7 @@ public class AwsS3Service {
 
         } catch (IOException e) {
             e.printStackTrace();
-            throw new OurException("Unable to upload image to S3 bucket: " + e.getMessage());
+            throw new OurException("Nem sikerült feltölteni a képet az S3-tárolóba: " + e.getMessage());
         }
     }
 }

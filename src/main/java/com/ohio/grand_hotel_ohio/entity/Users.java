@@ -34,24 +34,24 @@ public class Users implements UserDetails {
     @Column(name="id")
     private long id;
 
-    @NotBlank(message = "First name is required")
+    @NotBlank(message = "A keresztnév megadása kötelező")
     @Column(name="first_name",nullable = false)
     private String firstName;
 
-    @NotBlank(message = "Last name is required")
+    @NotBlank(message = "A vezetéknév megadása kötelező")
     @Column(name="last_name",nullable = false)
     private String lastName;
 
-    @NotBlank(message = "Email is required")
+    @NotBlank(message = "Az e-mail cím megadása kötelező")
     @Column(name="email",nullable = false,unique = true)
     private String email;
 
-    @NotBlank(message = "Phone number is required")
+    @NotBlank(message = "A telefonszám megadása kötelező")
     @Column(name="phone_number",nullable = false)
     private String phoneNumber;
 
     @Column(name="password",nullable = false)
-    @NotBlank(message = "Password is required!")
+    @NotBlank(message = "Jelszó megadása kötelező!")
     private String password;
 
 

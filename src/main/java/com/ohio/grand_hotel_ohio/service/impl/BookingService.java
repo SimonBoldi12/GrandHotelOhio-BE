@@ -88,7 +88,7 @@ public class BookingService implements IBookingService {
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error Saving a booking: " + e.getMessage());
+            response.setMessage("Hiba a foglalás mentése közben: " + e.getMessage());
         }
         return response;
     }
@@ -98,17 +98,17 @@ public class BookingService implements IBookingService {
         Response response = new Response();
         try {
             Booking booking = bookingRepository.findByBookingConfirmationCode(confirmationCode)
-                    .orElseThrow(() -> new OurException("Booking Not Found"));
+                    .orElseThrow(() -> new OurException("A foglalás nem található"));
             BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking, true);
             response.setStatus(200);
-            response.setMessage("successful");
+            response.setMessage("sikeres");
             response.setBooking(bookingDTO);
         } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error Finding a booking: " + e.getMessage());
+            response.setMessage("Hiba a foglalás keresése közben: " + e.getMessage());
         }
         return response;
     }
@@ -122,7 +122,7 @@ public class BookingService implements IBookingService {
                     .map(booking -> Utils.mapBookingEntityToBookingDTOPlusBookedRooms(booking, true))
                     .toList();
             response.setStatus(200);
-            response.setMessage("successful");
+            response.setMessage("sikeres");
             response.setBookings(bookingDTOList);
         } catch (OurException e) {
             response.setStatus(404);
@@ -138,10 +138,10 @@ public class BookingService implements IBookingService {
     public Response cancelBooking(Long bookingId) {
         Response response = new Response();
         try {
-            bookingRepository.findById(bookingId).orElseThrow(() -> new OurException("Booking Does Not Exist"));
+            bookingRepository.findById(bookingId).orElseThrow(() -> new OurException("A foglalás nem létezik"));
             bookingRepository.deleteById(bookingId);
             response.setStatus(200);
-            response.setMessage("successful");
+            response.setMessage("sikeres");
         } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());

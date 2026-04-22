@@ -24,19 +24,19 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Check in date is required!")
+    @NotNull(message = "A bejelentkezés dátumát kötelező megadni!")
     @Column(name = "check_in_date",nullable = false)
     private LocalDate checkInDate;
 
-    @Future(message = "Check out date must be in the future!")
+    @Future(message = "A kölcsönzés visszaadási dátumának a jövőben kell lennie!")
     @Column(name = "check_out_date",nullable = false)
     private LocalDate checkOutDate;
 
-    @Min(value = 1, message = "Number of adults must not be less than 1!")
+    @Min(value = 1, message = "A felnőttek száma nem lehet kevesebb 1-nél!")
     @Column(name = "num_of_adults",nullable = false)
     private int numOfAdults;
 
-    @Min(value = 0, message = "Number of children must not be less than 0!")
+    @Min(value = 0, message = "A gyermekek száma nem lehet 0-nál kevesebb!")
     @Column(name = "num_of_children",nullable = false)
     private int numOfChildren;
 

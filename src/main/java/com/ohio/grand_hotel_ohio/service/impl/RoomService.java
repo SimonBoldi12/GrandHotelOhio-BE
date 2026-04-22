@@ -53,11 +53,11 @@ public class RoomService implements IRoomService {
             RoomDTO roomDto = Utils.mapRoomEntityToRoomDTO(savedRoom);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
             response.setRoom(roomDto);
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error saving a room: " + e.getMessage());
+            response.setMessage("Hiba a szoba mentése közben: " + e.getMessage());
         }
         return response;
     }
@@ -75,11 +75,11 @@ public class RoomService implements IRoomService {
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(roomList);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
             response.setRoomList(roomDTOList);
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error fetching rooms: " + e.getMessage());
+            response.setMessage("Hiba a szobák lekérésénél: " + e.getMessage());
         }
         return response;
     }
@@ -92,13 +92,13 @@ public class RoomService implements IRoomService {
             roomRepository.deleteById(roomId);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
         } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error deleting room: " + e.getMessage());
+            response.setMessage("Hiba a szoba törlésekor: " + e.getMessage());
         }
         return response;
     }
@@ -112,7 +112,7 @@ public class RoomService implements IRoomService {
                 imageUrl = awsS3Service.saveImageToS3(photo);
             }
 
-            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Az oldal nem található"));
             if (roomType != null) room.setRoomType(roomType);
             if (roomPrice != null) room.setRoomPrice(roomPrice);
             if (description != null) room.setRoomDescription(description);
@@ -122,14 +122,14 @@ public class RoomService implements IRoomService {
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(updatedRoom);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
             response.setRoom(roomDTO);
         } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error updating room: " + e.getMessage());
+            response.setMessage("Hiba a szoba frissítése közben: " + e.getMessage());
         }
         return response;
     }
@@ -138,18 +138,18 @@ public class RoomService implements IRoomService {
     public Response getRoomById(Long roomId) {
         Response response = new Response();
         try {
-            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Az oldal nem található"));
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTOPlusBookings(room);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
             response.setRoom(roomDTO);
         } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error fetching room: " + e.getMessage());
+            response.setMessage("Hiba a szoba lekérésénél: " + e.getMessage());
         }
         return response;
     }
@@ -162,11 +162,11 @@ public class RoomService implements IRoomService {
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
             response.setRoomList(roomDTOList);
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error fetching available rooms: " + e.getMessage());
+            response.setMessage("Hiba a szabad szobák lekérésénél: " + e.getMessage());
         }
         return response;
     }
@@ -179,14 +179,14 @@ public class RoomService implements IRoomService {
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(roomList);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
             response.setRoomList(roomDTOList);
         } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error fetching available rooms: " + e.getMessage());
+            response.setMessage("Hiba a szabad szobák lekérésénél: " + e.getMessage());
         }
         return response;
     }
@@ -205,11 +205,11 @@ public class RoomService implements IRoomService {
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
             response.setRoomList(roomDTOList);
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error fetching available rooms: " + e.getMessage());
+            response.setMessage("Hiba a szabad szobák lekérésénél: " + e.getMessage());
         }
         return response;
     }
@@ -219,7 +219,7 @@ public class RoomService implements IRoomService {
         Response response = new Response();
         try {
             Room room = roomRepository.findById(roomId)
-                    .orElseThrow(() -> new OurException("Room Not Found"));
+                    .orElseThrow(() -> new OurException("Az oldal nem található"));
             String imageUrl = awsS3Service.saveImageToS3(photo);
             RoomImage roomImage = new RoomImage();
             roomImage.setImageUrl(imageUrl);
@@ -228,13 +228,13 @@ public class RoomService implements IRoomService {
             roomRepository.save(room);
 
             response.setStatus(200);
-            response.setMessage("Successful");
+            response.setMessage("Sikeres");
         } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            response.setMessage("Error adding image: " + e.getMessage());
+            response.setMessage("Hiba a kép hozzáadásakor: " + e.getMessage());
         }
         return response;
     }
@@ -268,9 +268,9 @@ public class RoomService implements IRoomService {
         Response response = new Response();
         try {
             Room room = roomRepository.findById(roomId)
-                    .orElseThrow(() -> new OurException("Room Not Found"));
+                    .orElseThrow(() -> new OurException("Az oldal nem található"));
             MealPlan mealPlan = mealPlanRepository.findById(mealPlanId)
-                    .orElseThrow(() -> new OurException("MealPlan Not Found"));
+                    .orElseThrow(() -> new OurException("Étkezési terv nem található"));
             if (!room.getMealPlans().contains(mealPlan)) {
                 room.getMealPlans().add(mealPlan);
                 roomRepository.save(room);
@@ -292,11 +292,11 @@ public class RoomService implements IRoomService {
         Response response = new Response();
         try {
             Room room = roomRepository.findById(roomId)
-                    .orElseThrow(() -> new OurException("Room Not Found"));
+                    .orElseThrow(() -> new OurException("Az oldal nem található"));
             room.getMealPlans().removeIf(m -> m.getId().equals(mealPlanId));
             roomRepository.save(room);
             response.setStatus(200);
-            response.setMessage("Étkezési csomag eltávolítva!");
+            response.setMessage("Meal package removed!");
         } catch (OurException e) {
             response.setStatus(404);
             response.setMessage(e.getMessage());

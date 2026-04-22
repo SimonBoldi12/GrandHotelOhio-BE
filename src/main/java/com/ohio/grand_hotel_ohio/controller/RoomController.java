@@ -34,7 +34,7 @@ public class RoomController {
         if (photo == null || photo.isEmpty() || roomType == null || roomType.isBlank() || roomPrice == null) {
             Response response = new Response();
             response.setStatus(400);
-            response.setMessage("Please provide values for all fields(photo, roomType, roomPrice)");
+            response.setMessage("Kérjük, töltse ki az összes mezőt (photo, roomType, roomPrice)");
             return ResponseEntity.status(400).body(response);
         }
         return ResponseEntity.ok(roomService.addNewRoom(photo, roomType, roomPrice, roomDescription));
