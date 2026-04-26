@@ -117,7 +117,6 @@ public class UserServiceTest {
 
     @Test
     void testLogin_UserNotFound() {
-        // Arrange
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail("nemletezo@teszt.hu");
         loginRequest.setPassword("titkosjelszo");
