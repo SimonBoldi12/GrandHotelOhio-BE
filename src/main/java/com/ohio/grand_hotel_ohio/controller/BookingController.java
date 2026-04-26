@@ -52,7 +52,7 @@ public class BookingController {
     }
 
     @PostMapping("/{bookingId}/add-service/{serviceId}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF') or hasRole('USER')")
     public ResponseEntity<Response> addServiceToBooking(
             @PathVariable Long bookingId,
             @PathVariable Long serviceId) {
