@@ -42,7 +42,6 @@ public class SecurityConfig {
                         .requestMatchers("/meal-plans/**").permitAll()
                         .requestMatchers("/services/**").permitAll()
                         .requestMatchers("/gallery/**").permitAll()
-                        // Update the Swagger matchers here:
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()
